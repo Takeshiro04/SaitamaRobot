@@ -328,6 +328,13 @@ def list_warn_filters(update: Update, context: CallbackContext):
 def reply_filter(update: Update, context: CallbackContext) -> str:
     chat: Optional[Chat] = update.effective_chat
     message: Optional[Message] = update.effective_message
+    user: Optional[User] = update.effective_user
+
+    if not user:  #Ignore channel
+        return
+
+    if user.id == 777000:
+        return
 
     chat_warn_filters = sql.get_chat_warn_triggers(chat.id)
     to_match = extract_text(message)
@@ -419,8 +426,8 @@ def set_warn_strength(update: Update, context: CallbackContext):
 
 def __stats__():
     return (
-        f"{sql.num_warns()} overall warns, across {sql.num_warn_chats()} chats.\n"
-        f"{sql.num_warn_filters()} warn filters, across {sql.num_warn_filter_chats()} chats."
+        f"• {sql.num_warns()} overall warns, across {sql.num_warn_chats()} chats.\n"
+        f"• {sql.num_warn_filters()} warn filters, across {sql.num_warn_filter_chats()} chats."
     )
 
 

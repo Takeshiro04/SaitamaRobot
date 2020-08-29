@@ -387,12 +387,12 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.kick_member(user_id)
         if should_message:
             update.effective_message.reply_text(
-                 f"<b>Alert</b>: this user is globally banned.\n"
-                 f"<code>*bans them from here*</code>.\n"
-                 f"<b>Appeal chat</b>: {SPAMWATCH_SUPPORT_CHAT}\n"
-                 f"<b>User ID</b>: <code>{sw_ban['id']}</code>\n"
-                 f"<b>Ban Reason</b>: <code>{html.escape(sw_ban['reason'])}</code>",
-                 parse_mode=ParseMode.HTML)
+                f"<b>Alert</b>: this user is globally banned.\n"
+                f"<code>*bans them from here*</code>.\n"
+                f"<b>Appeal chat</b>: {SPAMWATCH_SUPPORT_CHAT}\n"
+                f"<b>User ID</b>: <code>{sw_ban['id']}</code>\n"
+                f"<b>Ban Reason</b>: <code>{html.escape(sw_ban['reason'])}</code>",
+                parse_mode=ParseMode.HTML)
         return
 
     if sql.is_user_gbanned(user_id):
@@ -460,13 +460,16 @@ def gbanstat(update: Update, context: CallbackContext):
 
 
 def __stats__():
-    return f"{sql.num_gbanned_users()} gbanned users."
+    return f"• {sql.num_gbanned_users()} gbanned users."
 
 
 def __user_info__(user_id):
     is_gbanned = sql.is_user_gbanned(user_id)
 
     text = "Globally banned: <b>{}</b>"
+    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS:
+        text = text.format("???")
+        return text
     if is_gbanned:
         text = text.format("Yes")
         user = sql.get_gbanned_user(user_id)
@@ -499,6 +502,7 @@ TakeshiBot also integrates @Spamwatch API into gbans to remove Spammers as much 
 *What is SpamWatch?*
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
+*Note:* Users can appeal spamwatch bans or report spammers at @SpamwatchSupport
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban)
@@ -514,7 +518,7 @@ dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
 
-__mod_name__ = "Global Bans"
+__mod_name__ = "Anti-Spam"
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set

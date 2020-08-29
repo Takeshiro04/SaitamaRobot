@@ -459,7 +459,7 @@ def __chat_settings__(chat_id, user_id):
 
 
 def __stats__():
-    return "{} blacklist stickers, across {} chats.".format(
+    return "• {} blacklist stickers, across {} chats.".format(
         sql.num_stickers_filters(), sql.num_stickers_filter_chats())
 
 
@@ -476,7 +476,7 @@ Note:
  • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message.
 """
 
-__mod_name__ = "Sticker Blacklist"
+__mod_name__ = "Stickers Blacklist"
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
     "blsticker", blackliststicker, admin_ok=True)

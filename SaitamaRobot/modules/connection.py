@@ -263,7 +263,7 @@ def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
 
         if ((isadmin) or (isallow and ismember) or (user.id in SUDO_USERS) or
             (user.id in DEV_USERS)):
-            if need_admin == True:
+            if need_admin is True:
                 if (getstatusadmin.status in ("administrator", "creator") or
                         user_id in SUDO_USERS or user.id in DEV_USERS):
                     return conn_id
@@ -374,13 +374,13 @@ __help__ = """
 Sometimes, you just want to add some notes and filters to a group chat, but you don't want everyone to see; This is where connections come in...
 This allows you to connect to a chat's database, and add things to it without the commands appearing in chat! For obvious reasons, you need to be an admin to add things; but any member in the group can view your data.
 
- × /connect: Connects to chat (Can be done in a group by /connect or /connect <chat id> in PM)
- × /connection: List connected chats
- × /disconnect: Disconnect from a chat
- × /helpconnect: List available commands that can be used remotely
+ • /connect: Connects to chat (Can be done in a group by /connect or /connect <chat id> in PM)
+ • /connection: List connected chats
+ • /disconnect: Disconnect from a chat
+ • /helpconnect: List available commands that can be used remotely
 
 *Admin only:*
- × /allowconnect <yes/no>: allow a user to connect to a chat
+ • /allowconnect <yes/no>: allow a user to connect to a chat
 """
 
 CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)
